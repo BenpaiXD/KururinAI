@@ -1,0 +1,71 @@
+.flex-container {
+  margin: 5px 0px;
+  display: flex;
+  font-family: Arial, sans-serif;
+}
+
+.flex-item {
+  margin: 0 8px;
+  font-size: 14px;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+}
+.slider-value {
+  margin-left: 10px;
+}
+
+#rangeSlider {
+    width: 200px; /* Set the width of the slider */
+}
+
+/* The switch (toggle switch container) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  display: none;
+}
+
+/* The slider (circle/indicator inside the switch) */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 17px;
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+/* On state */
+.slider.round:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+
+/* Checked state */
+input:checked + .slider.round:before {
+  transform: translateX(13px);
+}

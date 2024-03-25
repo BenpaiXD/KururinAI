@@ -3,7 +3,9 @@ let pressedKeys = {};
 let collid = true;
 
 function setup() {
-    createCanvas(800, 600);
+    let canvas = createCanvas(800, 600);
+    canvas.parent(select("#canvasContainer"))
+
 
     ship = new Ship(300, 400);
     walls = [new Wall(150, 300, 300, 10, 0)];

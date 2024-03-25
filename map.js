@@ -73,7 +73,6 @@ class Wall {
 
 
         stroke(255,0,0);
-        console.log(axes[0]);
         translate(50,290);
         line(point[0], point[1], 0,0);
 
