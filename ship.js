@@ -1,11 +1,15 @@
 class Ship {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+    constructor(map) {
+        this.spawnPoint = map.spawnPoint;
+        this.x = map.spawnPoint[0];
+        this.y = map.spawnPoint[1];
         this.vely = 0;
         this.velx = 0;
         this.size = 20;
         this.speed = 5;
+        this.colliding = false;
+        this.collisionEnabled = true;
+
 
         //rectangle data
         this.rectWidth = 10;
@@ -17,6 +21,7 @@ class Ship {
 
     show() {
         //draw rectangle
+        push();
         fill(255, 255, 0);
         
         translate(this.x, this.y);
@@ -27,35 +32,48 @@ class Ship {
         rect(-this.rectWidth / 2, -this.rectHeight / 2, this.rectWidth, this.rectHeight);
         resetMatrix();
 
+        pop();
+        
         fill(255, 0, 0);
         ellipse(this.x, this.y, this.size);
+
     }
 
-    update(pressedKeys, walls) {
+    update(pressedKeys, map) {
         this.inputReceived(pressedKeys);
-        this.checkCollisions(walls);
-
+        this.checkCollisions(map.walls);
         this.x += this.velx;
         this.y += this.vely;
-
-        this.angle += 0.03;
-
+        
+        this.angle += 0.035;
+        
         let sinAngle = sin(this.angle);
         let cosAngle = cos(this.angle);
         this.rectX = this.x + cosAngle * (-this.rectWidth / 2) - sinAngle * (-this.rectHeight / 2);
         this.rectY = this.y + sinAngle * (-this.rectWidth / 2) + cosAngle * (-this.rectHeight / 2);
+        
+        if (this.colliding){
+            this.reset();
+        }
     }
 
     checkCollisions(walls) {
+        if (!this.collisionEnabled) {
+            return;
+        }
         let rectAsWall = this.getRectAsWall();
-        collid = false;
-        walls.forEach(function(wall) {
+        this.colliding = false;
+        walls.forEach((wall) => {
             if(wall.isColliding(rectAsWall)) {
-                //console.log("colliding")
-                collid = true;
+                this.colliding = true;
                 return;
             }
         });
+    }
+
+    reset() {
+        this.x = this.spawnPoint[0]
+        this.y = this.spawnPoint[1]
     }
 
     getRectAsWall() {

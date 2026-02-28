@@ -1,19 +1,30 @@
 class Map {
-  constructor(walls) {
-    this.walls = walls;
-  }
+    constructor(spawnPoint, walls) {
+        this.spawnPoint = spawnPoint
+        this.walls = walls;
+        this.selectedWall = null;
+    }
 
-  show() {
-    this.walls.forEach(function (wall) {
-      wall.show();
-    });
-  }
+    show() {
+        this.walls.forEach((wall) => {
+            fill(wall === this.selectedWall ? "blue" : "white");
+            wall.show();
+        });
+    }
 
-  update() {
-    this.walls.forEach(function (wall) {
-      wall.update();
-    });
-  }
+    update() {
+        return;
+        this.walls.forEach(function (wall) {
+            wall.update();
+        });
+    }
+
+    removeSelected() {
+        var index = this.walls.indexOf(this.selectedWall);
+        if (index > -1) {
+            this.walls.splice(index, 1);
+        }
+    }
 }
 
 class Wall {
@@ -25,7 +36,6 @@ class Wall {
         this.angle = angle;
     }
     show() {
-        fill(255, 255, 255);
         rectMode(CORNER);
         translate(this.x, this.y);
         rotate(this.angle);
@@ -35,7 +45,6 @@ class Wall {
     }
 
     update() {
-        this.angle += 0.01;
         return;
     }
 
@@ -43,26 +52,7 @@ class Wall {
         let rect1 = this.getCorners();
         let rect2 = rect.getCorners();
 
-        
-        rect1.forEach(function (point) {
-            fill(255, 0, 0);
-            ellipse(point[0], point[1], 10);
-        });
-
-        rect2.forEach(function (point) {
-            fill(255, 0, 0);
-            ellipse(point[0], point[1], 10);
-        });
-        
-
-        // console.log(corners2)
-
         let axes = [
-
-        ];
-
-
-        axes = [
             //x2 - x1
             [rect1[1][0] - rect1[0][0], rect1[1][1] - rect1[0][1]],
             [rect1[1][0] - rect1[3][0], rect1[1][1] - rect1[3][1]],
@@ -71,23 +61,18 @@ class Wall {
         ];
 
 
-
+        /*
         stroke(255,0,0);
         translate(50,290);
-        line(point[0], point[1], 0,0);
 
-        axes.forEach(function(vector){
-            line(vector[0], vector[1], 0,0);
-        });
+        axes.forEach(function(vector){line(vector[0], vector[1], 0,0)});
 
-        line(axes[0][0], axes[0][1], 0,0);
-        line(axes[2][0], axes[2][1], 0,0);
-        line(axes[0][0], axes[0][1], 0,0);
-        line(axes[1][0], axes[1][1], 0,0);
         translate(-50,-290);
         stroke(0);
+        */
+
     
-        // Function to project vertices onto an axis
+        // Funwd axis
         function project(axis, rect) {
             let min = Infinity, max = -Infinity;
             for (let i = 0; i < rect.length; i++) {
